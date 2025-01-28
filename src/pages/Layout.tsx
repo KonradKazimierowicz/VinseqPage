@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
+import ScrollToTop from "@/scripts/ScrollToTop";
 import { TwitterIcon, FacebookIcon, InstagramIcon, MapPinIcon, PhoneIcon, MailIcon } from "lucide-react";
 
 // Navbar Component
@@ -49,9 +50,9 @@ const Navbar = () => {
 					{/* Desktop Navigation */}
 					<div className="hidden md:flex md:items-center md:space-x-6">
 						{[
-							{ path: "/services", label: "Services" },
-							{ path: "/about", label: "About" },
-							{ path: "/contact", label: "Contact" },
+							{ path: "/services", label: "Usługi" },
+							{ path: "/about", label: "O nas" },
+							{ path: "/contact", label: "Kontakt" },
 						].map(({ path, label }) => (
 							<Link
 								key={path}
@@ -103,7 +104,7 @@ const Footer = () => (
 				<p className="text-blue-100 text-sm max-w-xs">
 				Dostarczamy innowacyjne rozwiązania dla Twoich cyfrowych potrzeb. Stwórzmy razem coś niesamowitego.
 				</p>
-				<div className="flex space-x-3">
+				{/* <div className="flex space-x-3">
 					<a href="#" className="text-blue-100 hover:text-white transition-colors">
 						<TwitterIcon className="w-5 h-5" />
 					</a>
@@ -113,7 +114,7 @@ const Footer = () => (
 					<a href="#" className="text-blue-100 hover:text-white transition-colors">
 						<InstagramIcon className="w-5 h-5" />
 					</a>
-				</div>
+				</div> */}
 			</div>
 
 			{/* Contact Info */}
@@ -126,11 +127,12 @@ const Footer = () => (
 					</li>
 					<li className="flex items-center space-x-2">
 						<PhoneIcon className="w-4 h-4 text-blue-100" />
-						<span className="text-blue-100 text-sm">+48 669 281 812</span>
+						<a href="tel:+48669281812"><span className="text-blue-100 text-sm">+48 669 281 812</span></a>
+						
 					</li>
 					<li className="flex items-center space-x-2">
 						<MailIcon className="w-4 h-4 text-blue-100" />
-						<span className="text-blue-100 text-sm">contact@example.com</span>
+						<a href="mailto:vinseq7@gmail.com"><span className="text-blue-100 text-sm">vinseq7@gmail.com</span></a>
 					</li>
 				</ul>
 			</div>
@@ -139,7 +141,7 @@ const Footer = () => (
 		{/* Copyright */}
 		<div className="mt-8 pt-8 border-t border-blue-500">
 			<p className="text-center text-blue-100 text-sm">
-				© {new Date().getFullYear()} Company Name. All rights reserved.
+				© {new Date().getFullYear()} Vinseq Studio. All rights reserved.
 			</p>
 		</div>
 	</footer>
@@ -161,6 +163,7 @@ const Layout = () => {
 
 	return (
 		<>
+			<ScrollToTop />
 			<Navbar />
 			<ScrollProgress className="fixed top-16 bg-gradient-to-r from-blue-800 via-blue-600 to-purple-600" />
 			<Outlet />

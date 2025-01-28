@@ -301,9 +301,12 @@ const FinalCTA = () => (
                 <p className="text-xl text-muted-foreground mb-8">{ABOUT_CONTENT.cta.subtitle}</p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
 
-                    <InteractiveHoverButton className="min-w-[200px] h-12 rounded-full bg-blue-600 text-white text-base">
-                        Umów konsultację
-                    </InteractiveHoverButton>   
+                    <a href="https://cal.com/konrad-kazimierowicz-xdabk3/15min" target="_blank" rel="noopener noreferrer">
+                        <InteractiveHoverButton className="min-w-[200px] h-12 rounded-full bg-blue-600 text-white text-base">
+                            Umów konsultację
+                        </InteractiveHoverButton>
+                    </a>
+
                 </div>
             </motion.div>
         </div>

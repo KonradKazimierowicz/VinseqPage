@@ -9,162 +9,162 @@ import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button
 import { Button } from "@/components/ui/button";
 
 const SITE_CONTENT = {
-  services: [
-    {
-      id: "web",
-      title: "Tworzenie stron WWW",
-      icon: "/src/assets/icons/browser.png",
-      description: "Projektujemy nowoczesne strony internetowe",
-      content: "Tworzymy szybkie, responsywne i przyjazne dla użytkownika strony internetowe. Każdy projekt jest dopasowany do potrzeb Twojej firmy i zoptymalizowany pod kątem konwersji.",
-      features: [
-        "Responsywny design",
-        "Optymalizacja pod SEO",
-        "Szybkie ładowanie",
-        "Intuicyjny interfejs",
-        "Zgodność z WCAG",
-      ]
-    },
-    {
-      id: "business",
-      title: "Wizytówka Google",
-      icon: "/src/assets/icons/id-card.png",
-      description: "Poprawa pozycji w Google Maps",
-      content: "Twoja wizytówka Google Moja Firma może przyciągać więcej klientów. Sprawimy, że Twoja firma będzie lepiej widoczna w lokalnych wynikach.",
-      features: [
-        "Optymalizacja profilu",
-        "Zarządzanie opiniami",
-        "Pozycjonowanie lokalne",
-        "Aktualizacja danych",
-        "Analiza konkurencji"
-      ]
-    },
-    {
-      id: "seo",
-      title: "SEO & Pozycjonowanie",
-      icon: "/src/assets/icons/search-engine-optimization.png",
-      description: "Zwiększamy widoczność Twojej strony w Google",
-      content: "Kompleksowa optymalizacja SEO, która pomoże Ci dotrzeć do klientów szukających Twoich usług. Używamy sprawdzonych technik i narzędzi.",
-      features: [
-        "Analiza słów kluczowych",
-        "Optymalizacja techniczna",
-        "Linkbuilding",
-        "Audyt SEO",
-        "Monitoring pozycji"
-      ]
-    },
-    {
-      id: "content",
-      title: "Content Marketing",
-      icon: "/src/assets/icons/content.png",
-      description: "Tworzymy angażujące treści",
-      content: "Profesjonalne teksty, które nie tylko przyciągają uwagę czytelników, ale także pomagają w pozycjonowaniu. Tworzymy wartościowe treści.",
-      features: [
-        "Copywriting SEO",
-        "Artykuły blogowe",
-        "Social media",
-        "Newslettery",
-        "Opisy produktów"
-      ]
-    }
-  ],
-  hero: {
-    title: "Nasze Usługi",
-    description: "Oferujemy kompleksowe rozwiązania dla Twojego biznesu online. Sprawdź, jak możemy pomóc Ci osiągnąć sukces w internecie."
-  },
-  whyChooseUs: {
-    title: "Dlaczego my?",
-    description: "Łączymy doświadczenie z innowacją, aby dostarczać rozwiązania, które naprawdę działają",
-    benefits: [
-      {
-        title: "Doświadczenie",
-        description: "Ponad 5 lat doświadczenia w branży i setki zadowolonych klientów",
-        icon: "shield-check"
-      },
-      {
-        title: "Indywidualne podejście",
-        description: "Każdy projekt traktujemy indywidualnie, dostosowując się do potrzeb klienta",
-        icon: "users"
-      },
-      {
-        title: "Gwarancja jakości",
-        description: "Zapewniamy najwyższą jakość usług i wsparcie na każdym etapie współpracy",
-        icon: "check"
-      }
-    ]
-  },
-  cta: {
-    title: "Rozpocznij swoją drogę do sukcesu online",
-    description: "Skontaktuj się z nami, aby otrzymać bezpłatną wycenę i konsultację. Pomożemy Ci wybrać najlepsze rozwiązanie dla Twojego biznesu.",
-    benefits: [
-      "Bezpłatna analiza Twojej strony",
-      "Indywidualna strategia działania",
-      "Szczegółowa wycena projektu",
-      "Plan wdrożenia rozwiązań",
-      "Wsparcie na każdym etapie"
+    services: [
+        {
+            id: "web",
+            title: "Tworzenie stron WWW",
+            icon: "/src/assets/icons/browser.png",
+            description: "Projektujemy nowoczesne strony internetowe",
+            content: "Tworzymy szybkie, responsywne i przyjazne dla użytkownika strony internetowe. Każdy projekt jest dopasowany do potrzeb Twojej firmy i zoptymalizowany pod kątem konwersji.",
+            features: [
+                "Responsywny design",
+                "Optymalizacja pod SEO",
+                "Szybkie ładowanie",
+                "Intuicyjny interfejs",
+                "Zgodność z WCAG",
+            ]
+        },
+        {
+            id: "business",
+            title: "Wizytówka Google",
+            icon: "/src/assets/icons/id-card.png",
+            description: "Poprawa pozycji w Google Maps",
+            content: "Twoja wizytówka Google Moja Firma może przyciągać więcej klientów. Sprawimy, że Twoja firma będzie lepiej widoczna w lokalnych wynikach.",
+            features: [
+                "Optymalizacja profilu",
+                "Zarządzanie opiniami",
+                "Pozycjonowanie lokalne",
+                "Aktualizacja danych",
+                "Analiza konkurencji"
+            ]
+        },
+        {
+            id: "seo",
+            title: "SEO & Pozycjonowanie",
+            icon: "/src/assets/icons/search-engine-optimization.png",
+            description: "Zwiększamy widoczność Twojej strony w Google",
+            content: "Kompleksowa optymalizacja SEO, która pomoże Ci dotrzeć do klientów szukających Twoich usług. Używamy sprawdzonych technik i narzędzi.",
+            features: [
+                "Analiza słów kluczowych",
+                "Optymalizacja techniczna",
+                "Linkbuilding",
+                "Audyt SEO",
+                "Monitoring pozycji"
+            ]
+        },
+        {
+            id: "content",
+            title: "Content Marketing",
+            icon: "/src/assets/icons/content.png",
+            description: "Tworzymy angażujące treści",
+            content: "Profesjonalne teksty, które nie tylko przyciągają uwagę czytelników, ale także pomagają w pozycjonowaniu. Tworzymy wartościowe treści.",
+            features: [
+                "Copywriting SEO",
+                "Artykuły blogowe",
+                "Social media",
+                "Newslettery",
+                "Opisy produktów"
+            ]
+        }
     ],
-    buttons: {
-      primary: "Otrzymaj bezpłatną wycenę",
-      secondary: "Umów konsultację"
+    hero: {
+        title: "Nasze Usługi",
+        description: "Oferujemy kompleksowe rozwiązania dla Twojego biznesu online. Sprawdź, jak możemy pomóc Ci osiągnąć sukces w internecie."
+    },
+    whyChooseUs: {
+        title: "Dlaczego my?",
+        description: "Łączymy doświadczenie z innowacją, aby dostarczać rozwiązania, które naprawdę działają",
+        benefits: [
+            {
+                title: "Doświadczenie",
+                description: "Ponad 5 lat doświadczenia w branży i setki zadowolonych klientów",
+                icon: "shield-check"
+            },
+            {
+                title: "Indywidualne podejście",
+                description: "Każdy projekt traktujemy indywidualnie, dostosowując się do potrzeb klienta",
+                icon: "users"
+            },
+            {
+                title: "Gwarancja jakości",
+                description: "Zapewniamy najwyższą jakość usług i wsparcie na każdym etapie współpracy",
+                icon: "check"
+            }
+        ]
+    },
+    cta: {
+        title: "Rozpocznij swoją drogę do sukcesu online",
+        description: "Skontaktuj się z nami, aby otrzymać bezpłatną wycenę i konsultację. Pomożemy Ci wybrać najlepsze rozwiązanie dla Twojego biznesu.",
+        benefits: [
+            "Bezpłatna analiza Twojej strony",
+            "Indywidualna strategia działania",
+            "Szczegółowa wycena projektu",
+            "Plan wdrożenia rozwiązań",
+            "Wsparcie na każdym etapie"
+        ],
+        buttons: {
+            primary: "Otrzymaj bezpłatną wycenę",
+            secondary: "Umów konsultację"
+        }
+    },
+    caseStudies: {
+        title: "Nasze realizacje",
+        description: "Zobacz, jak pomogliśmy naszym klientom osiągnąć sukces w internecie",
+        cases: [
+            {
+                title: "Sklep meblowy online",
+                category: "E-commerce",
+                metrics: [
+                    { label: "Wzrost ruchu", value: "+180%" },
+                    { label: "Pozycje w Google", value: "TOP 3" },
+                    { label: "Konwersja", value: "+75%" }
+                ],
+                image: "/src/assets/case-studies/case1.jpg",
+                gradient: "from-purple-500/20 to-blue-500/20"
+            },
+            {
+                title: "Klinika stomatologiczna",
+                category: "Lokalna firma",
+                metrics: [
+                    { label: "Nowi pacjenci", value: "+120%" },
+                    { label: "Opinie Google", value: "4.9★" },
+                    { label: "Leady", value: "+90%" }
+                ],
+                image: "/src/assets/case-studies/case2.jpg",
+                gradient: "from-blue-500/20 to-cyan-500/20"
+            },
+            {
+                title: "Blog kulinarny",
+                category: "Content Marketing",
+                metrics: [
+                    { label: "Ruch organiczny", value: "+250%" },
+                    { label: "Czas na stronie", value: "+85%" },
+                    { label: "Subskrypcje", value: "+140%" }
+                ],
+                image: "/src/assets/case-studies/case3.jpg",
+                gradient: "from-cyan-500/20 to-emerald-500/20"
+            }
+        ]
     }
-  },
-  caseStudies: {
-    title: "Nasze realizacje",
-    description: "Zobacz, jak pomogliśmy naszym klientom osiągnąć sukces w internecie",
-    cases: [
-      {
-        title: "Sklep meblowy online",
-        category: "E-commerce",
-        metrics: [
-          { label: "Wzrost ruchu", value: "+180%" },
-          { label: "Pozycje w Google", value: "TOP 3" },
-          { label: "Konwersja", value: "+75%" }
-        ],
-        image: "/src/assets/case-studies/case1.jpg",
-        gradient: "from-purple-500/20 to-blue-500/20"
-      },
-      {
-        title: "Klinika stomatologiczna",
-        category: "Lokalna firma",
-        metrics: [
-          { label: "Nowi pacjenci", value: "+120%" },
-          { label: "Opinie Google", value: "4.9★" },
-          { label: "Leady", value: "+90%" }
-        ],
-        image: "/src/assets/case-studies/case2.jpg",
-        gradient: "from-blue-500/20 to-cyan-500/20"
-      },
-      {
-        title: "Blog kulinarny",
-        category: "Content Marketing",
-        metrics: [
-          { label: "Ruch organiczny", value: "+250%" },
-          { label: "Czas na stronie", value: "+85%" },
-          { label: "Subskrypcje", value: "+140%" }
-        ],
-        image: "/src/assets/case-studies/case3.jpg",
-        gradient: "from-cyan-500/20 to-emerald-500/20"
-      }
-    ]
-  }
 };
 
 // Icon mapping object
 const IconMap = {
-  "shield-check": (props: any) => (
-    <svg className={props.className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-    </svg>
-  ),
-  "users": (props: any) => (
-    <svg className={props.className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-    </svg>
-  ),
-  "check": (props: any) => (
-    <svg className={props.className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-    </svg>
-  )
+    "shield-check": (props: any) => (
+        <svg className={props.className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+    ),
+    "users": (props: any) => (
+        <svg className={props.className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+    ),
+    "check": (props: any) => (
+        <svg className={props.className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+        </svg>
+    )
 };
 
 const ServicesHero = () => (
@@ -216,9 +216,11 @@ const ServiceCard = ({ service, index }: { service: typeof SITE_CONTENT.services
                     ))}
                 </ul>
                 <div className="mt-auto">
-                    <ShimmerButton className="w-full">
-                        Dowiedz się więcej
-                    </ShimmerButton>
+                    <a href="/contact" rel="noopener noreferrer">
+                        <ShimmerButton className="w-full">
+                            Dowiedz się więcej
+                        </ShimmerButton>
+                    </a>
                 </div>
             </div>
         </MagicCard>
@@ -238,7 +240,7 @@ const ServicesGrid = () => (
 const WhyChooseUs = () => (
     <section className="relative py-20 px-4 md:px-8 bg-slate-100">
         <div className="absolute inset-0 overflow-hidden">
-            <DotPattern 
+            <DotPattern
                 width={20}
                 height={20}
                 cx={1}
@@ -331,15 +333,20 @@ const GetQuoteCTA = () => (
                     Pomożemy Ci wybrać najlepsze rozwiązanie dla Twojego biznesu.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                <ShimmerButton className="min-w-[200px] bg-white " >
-                        Otrzymaj bezpłatną wycenę
-                    </ShimmerButton>
-                    <Button 
-                        variant="outline" 
-                        className="min-w-[200px] h-12 rounded-full border-white text-white bg-white/20 text-base"
-                    >
-                        Umów konsultację
-                    </Button>
+                    <a href="/contact" rel="noopener noreferrer">
+                        <ShimmerButton className="min-w-[200px] bg-white " >
+                            Otrzymaj bezpłatną wycenę
+                        </ShimmerButton>
+                    </a>
+
+                    <a href="https://cal.com/konrad-kazimierowicz-xdabk3/15min" target="_blank" rel="noopener noreferrer">
+                        <Button
+                            variant="outline"
+                            className="min-w-[200px] h-12 rounded-full border-white text-white bg-white/20 text-base"
+                        >
+                            Umów konsultację
+                        </Button>
+                    </a>
                 </div>
             </motion.div>
 
@@ -391,7 +398,7 @@ const GetQuoteCTA = () => (
 const CaseStudies = () => (
     <section className="relative py-20 px-4 md:px-8 bg-gradient-to-b from-white to-slate-50">
         <div className="absolute inset-0 overflow-hidden">
-            <DotPattern 
+            <DotPattern
                 width={20}
                 height={20}
                 cx={1}
@@ -403,7 +410,7 @@ const CaseStudies = () => (
                 )}
             />
         </div>
-        
+
         <div className="relative z-10">
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

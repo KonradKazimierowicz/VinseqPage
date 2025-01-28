@@ -142,7 +142,7 @@ const HeroSection = () => (
 					height={60}
 					className="absolute gap-y-10 [mask-image:linear-gradient(100deg,white_0%,white_10%,transparent_100%)]"
 				/>
-				<StatisticsCard 
+				<StatisticsCard
 					value={200}
 					text={texts.statistics.visibility}
 					className="absolute top-[60%] right-[-15rem]"
@@ -151,13 +151,16 @@ const HeroSection = () => (
 				<GradientWordRotate className="inline-block text-5xl font-bold" words={texts.hero.rotatingWords} />
 				<h2 className="text-5xl font-medium m-0">{texts.hero.endTitle}</h2>
 				<h4 className="text-xl font-medium pt-10">{texts.hero.subtitle}</h4>
-				<ShimmerButton className="mt-5 w-fit">{texts.hero.ctaButton}</ShimmerButton>
+				<a href="/services" rel="noopener noreferrer">
+					<ShimmerButton className="mt-5 w-fit">{texts.hero.ctaButton}</ShimmerButton>
+				</a>
+
 				<h4 className="text-sm font-light pt-5">{texts.hero.footnote}</h4>
 			</div>
 		</div>
-		
+
 		<div className="flex flex-1 flex-col h-full justify-center items-center relative">
-			<StatisticsCard 
+			<StatisticsCard
 				value={98}
 				text={texts.statistics.clients}
 				className="absolute top-[12rem] left-1 rounded-br-none"
@@ -202,7 +205,7 @@ const ServicesSection = () => {
 	const [isHovered, setIsHovered] = useState(false);
 
 	useEffect(() => {
-		if (isHovered) return; 
+		if (isHovered) return;
 
 		const interval = setInterval(() => {
 			setActiveTab(currentTab => {
@@ -223,7 +226,7 @@ const ServicesSection = () => {
 			<p className="text-center text-base sm:text-lg font-medium pt-3 sm:pt-5 max-w-[50rem] px-4 text-muted-foreground">
 				{texts.services.subtitle}
 			</p>
-			
+
 			<div className="flex flex-col w-full max-w-5xl mt-6 sm:mt-10">
 				{/* Services Navigation */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-4 sm:mb-8">
@@ -263,9 +266,9 @@ const ServicesSection = () => {
 								onMouseLeave={() => setIsHovered(false)}
 							>
 								<div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
-									<img 
-										src={service.icon} 
-										alt={service.title} 
+									<img
+										src={service.icon}
+										alt={service.title}
 										className="w-12 h-12 sm:w-16 sm:h-16 flex-shrink-0"
 									/>
 									<div>
@@ -290,7 +293,7 @@ const ContactSection = () => (
 	<section className="flex flex-col items-center py-12 px-4 md:px-8 bg-slate-100 relative">
 		{/* Background Pattern */}
 		<div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/50 pointer-events-none" />
-		
+
 		<div className="w-full max-w-6xl z-10">
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 				{/* Contact Info */}
@@ -299,7 +302,7 @@ const ContactSection = () => (
 					<p className="text-muted-foreground max-w-md">
 						Jesteśmy gotowi pomóc Ci osiągnąć sukces w internecie. Skontaktuj się z nami i rozpocznij swoją drogę do lepszej widoczności online.
 					</p>
-					
+
 					<div className="space-y-4">
 						{/* Contact Details */}
 						<div className="flex items-center gap-3">
@@ -307,11 +310,11 @@ const ContactSection = () => (
 								<PhoneIcon className="w-5 h-5 text-blue-600" />
 							</div>
 							<div>
-								<p className="text-sm font-medium">Phone</p>
-								<p className="text-sm text-muted-foreground">+48 123 456 789</p>
+								<p className="text-sm font-medium">Telefon</p>
+								<p className="text-sm text-muted-foreground">+48 669 281 812</p>
 							</div>
 						</div>
-						
+
 						<div className="flex items-center gap-3">
 							<div className="p-2 rounded-full bg-blue-100">
 								<MailIcon className="w-5 h-5 text-blue-600" />
@@ -332,7 +335,7 @@ const ContactSection = () => (
 						</div>
 					</div>
 				</div>
-				
+
 				{/* Contact Form */}
 				<div className="bg-white rounded-xl shadow-lg p-6">
 					<form className="space-y-4">
@@ -340,36 +343,53 @@ const ContactSection = () => (
 						<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 							<div className="space-y-2">
 								<label className="text-sm font-medium">Imię</label>
-								<input 
+								<input
+									required
 									type="text"
 									className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>
 							</div>
 							<div className="space-y-2">
 								<label className="text-sm font-medium">Nazwisko</label>
-								<input 
+								<input
+									required
 									type="text"
 									className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>
 							</div>
 						</div>
-						
+
 						<div className="space-y-2">
 							<label className="text-sm font-medium">Email</label>
-							<input 
+							<input
+								required
 								type="email"
 								className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
-						
+
 						<div className="space-y-2">
 							<label className="text-sm font-medium">Wiadomość</label>
-							<textarea 
+							<textarea
+								required
 								rows={4}
 								className="w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
-						
+						<div className="flex items-start space-x-2">
+							<input
+								id="gdpr"
+								name="gdpr"
+								type="checkbox"
+		
+								required
+								className="mt-1"
+							/>
+							<label htmlFor="gdpr" className="text-sm text-muted-foreground">
+								Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z polityką RODO. <span className="text-destructive">*</span>
+							</label>
+						</div>
+
 						<ShimmerButton className="w-full">
 							Wyślij wiadomość
 						</ShimmerButton>
@@ -385,7 +405,7 @@ export const FAQSection = () => (
 		<h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
 			{texts.faq.sectionTitle}
 		</h2>
-		
+
 		<div className="w-full max-w-6xl">
 			<Accordion type="single" collapsible>
 				{texts.faq.items.map((item) => (

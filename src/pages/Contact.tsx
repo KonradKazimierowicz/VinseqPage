@@ -357,9 +357,9 @@ const ContactInfo = () => {
                 </div>
                 <div>
                   <h3 className="font-medium">Telefon</h3>
-                  <p className="text-muted-foreground">+48 123 456 789</p>
+                  <a href="tel:+48669281812"><p className="text-muted-foreground">+48 669 281 812</p></a>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Pon-Pt: 9:00 - 17:00
+                    Pon-Pt: 8:00 - 17:00
                   </p>
                 </div>
               </div>
@@ -370,7 +370,7 @@ const ContactInfo = () => {
                 </div>
                 <div>
                   <h3 className="font-medium">Email</h3>
-                  <p className="text-muted-foreground">kontakt@twojafirma.pl</p>
+                  <a href="mailto:vinseq7@gmail.com"><p className="text-muted-foreground">vinseq7@gmail.com</p></a>
                   <p className="text-sm text-muted-foreground mt-1">
                     Odpowiadamy w ciągu 24 godzin
                   </p>
@@ -383,8 +383,8 @@ const ContactInfo = () => {
                 </div>
                 <div>
                   <h3 className="font-medium">Adres</h3>
-                  <p className="text-muted-foreground">ul. Przykładowa 123</p>
-                  <p className="text-muted-foreground">00-000 Warszawa</p>
+                  <p className="text-muted-foreground">Głogów, Polska</p>
+                 
                 </div>
               </div>
             </div>
@@ -392,9 +392,9 @@ const ContactInfo = () => {
             {/* Map */}
             <div className="mt-8 h-[300px] rounded-lg overflow-hidden">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d156388.35439831157!2d20.92111271889343!3d52.233033197791615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecc669a869f01%3A0x72f0be2a88ead3fc!2sWarszawa!5e0!3m2!1spl!2spl!4v1710337160595!5m2!1spl!2spl"
                 width="100%"
                 height="100%"
+                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=G%C5%82og%C3%B3w,%20Polska+(Vinseq%20Studio)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
