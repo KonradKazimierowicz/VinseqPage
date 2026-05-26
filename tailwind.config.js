@@ -6,8 +6,24 @@ export default {
   	extend: {
   		fontFamily: {
   			sans: [
-  				'var(--font-family)',
+  				'var(--font-sans)',
+  				'ui-sans-serif',
+  				'system-ui',
+  				'-apple-system',
+  				'BlinkMacSystemFont',
   				'sans-serif'
+  			],
+  			display: [
+  				'var(--font-display)',
+  				'ui-sans-serif',
+  				'system-ui',
+  				'sans-serif'
+  			],
+  			serif: [
+  				'var(--font-serif)',
+  				'ui-serif',
+  				'Georgia',
+  				'serif'
   			]
   		},
   		borderRadius: {

@@ -1,412 +1,337 @@
-import { GridPattern } from "@/components/ui/grid-pattern";
-import { ShimmerButton } from "@/components/ui/shimmer-button";
-import { MailIcon, PhoneIcon, MapPinIcon } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { company, serviceCards } from "@/content/site";
+import { motion } from "motion/react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { cn } from "@/lib/utils";
 import { FAQSection } from "./Home";
 
-
-interface FormData {
-  firstName: string;
-  lastName: string;
+interface ContactFormState {
+  name: string;
+  companyName: string;
   email: string;
-  phone: string;
-  website: string;
   service: string;
   message: string;
-  files: FileList | null;
-  gdpr: boolean;
 }
 
+const Eyebrow = ({ children }: { children: React.ReactNode }) => (
+  <span className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+    <span className="h-px w-6 bg-neutral-300" />
+    {children}
+  </span>
+);
+
 const ContactHero = () => (
-  <section className="relative bg-slate-100 flex flex-col justify-center items-center h-[35vh] pt-20 pb-10 overflow-hidden">
-    <GridPattern
-      width={40}
-      height={40}
-      className="absolute inset-0 opacity-50 [mask-image:linear-gradient(180deg,white_0%,white_10%,transparent_100%)]"
-    />
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="z-10 text-center"
+  <section className="relative isolate overflow-hidden bg-neutral-950 px-6 pb-24 pt-32 text-white sm:pb-28 lg:px-8 lg:pt-40">
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 -z-10"
     >
-      <h1 className="text-5xl font-bold mb-4">Skontaktuj się z nami</h1>
-      <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-        Jesteśmy tutaj, aby pomóc Ci osiągnąć sukces w internecie. Skontaktuj się z nami i rozpocznij swoją drogę do lepszej widoczności online.
+      <div className="absolute -top-32 left-1/2 h-[420px] w-[760px] -translate-x-1/2 rounded-full bg-blue-500/20 blur-[140px]" />
+    </div>
+
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="mx-auto max-w-4xl text-center"
+    >
+      <Eyebrow>
+        <span className="text-neutral-400">Kontakt</span>
+      </Eyebrow>
+      <h1 className="mt-7 text-balance text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+        Najlepiej{" "}
+        <span className="font-serif italic font-normal text-neutral-300">zadzwoń</span>.
+        <br className="hidden sm:block" />
+        Jeśli wolisz &mdash; napisz mail.
+      </h1>
+      <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-neutral-400 sm:text-lg sm:leading-8">
+        Chcesz zbudować stronę internetową, uporządkować branding, wdrożyć aplikację webową,
+        automatyzację albo narzędzie AI? Zaczniemy od krótkiej rozmowy i ustalenia, co da Ci
+        najszybszy efekt.
       </p>
     </motion.div>
   </section>
 );
 
 const ContactInfo = () => {
-  const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
+  const [formData, setFormData] = useState<ContactFormState>({
+    name: "",
+    companyName: "",
     email: "",
-    phone: "",
-    website: "",
-    service: "",
+    service: serviceCards[0].title,
     message: "",
-    files: null,
-    gdpr: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitState, setSubmitState] = useState<"idle" | "success" | "error">("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setIsSubmitting(true);
+    setSubmitState("idle");
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setSubmitStatus('success');
-    } catch (error) {
-      setSubmitStatus('error');
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("SEND_FAILED");
+      }
+
+      setSubmitState("success");
+      setFormData({
+        name: "",
+        companyName: "",
+        email: "",
+        service: serviceCards[0].title,
+        message: "",
+      });
+    } catch {
+      setSubmitState("error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
-    }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      files: e.target.files
-    }));
-  };
-
-  const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Remove all non-digit characters except + (at the beginning)
-    const cleaned = value.replace(/[^\d+]/g, '').replace(/^\+*/, '+').replace(/\+.+\+/g, '+');
-    
-    // Limit to max 12 digits after the + sign
-    const formatted = cleaned.slice(0, cleaned.startsWith('+') ? 13 : 12);
-    
-    setFormData(prev => ({
-      ...prev,
-      phone: formatted
-    }));
-  };
-
-  const validatePhone = (phone: string) => {
-    // Polish phone number format: +48 XXX XXX XXX or XXX XXX XXX
-    const phoneRegex = /^\+?48?\d{9}$/;
-    return phoneRegex.test(phone.replace(/\s/g, ''));
-  };
-
-  const handleWebsiteInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.toLowerCase();
-    
-    // If user didn't enter http(s):// or www., add https://
-    if (value && !value.match(/^https?:\/\//) && !value.startsWith('www.')) {
-      value = 'https://' + value;
-    }
-    // If user entered www. without http(s):/, add https://
-    if (value.startsWith('www.')) {
-      value = 'https://' + value;
-    }
-    
-    setFormData(prev => ({
-      ...prev,
-      website: value
-    }));
-  };
-
-  const validateUrl = (url: string) => {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
   return (
-    <section className="bg-gradient-to-b from-slate-100 to-slate-50 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-white rounded-xl shadow-lg p-8"
+    <section className="bg-neutral-50/60 py-20 sm:py-24">
+      <div className="mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-3"
+        >
+          <a
+            href={company.phoneHref}
+            className="group relative block overflow-hidden rounded-3xl bg-neutral-950 p-8 text-white transition sm:p-10"
           >
-            <h2 className="text-2xl font-bold mb-6">Napisz do nas</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">
-                    Imię <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="firstName"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Jan"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">
-                    Nazwisko <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Kowalski"
-                  />
-                </div>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-20 -top-20 h-[280px] w-[280px] rounded-full bg-blue-500/25 blur-[100px]"
+            />
+
+            <div className="relative">
+              <div className="flex items-center justify-between">
+                <Eyebrow>
+                  <span className="text-neutral-400">Priorytetowo</span>
+                </Eyebrow>
+                <span className="rounded-full border border-white/15 bg-white/10 p-2.5">
+                  <Phone className="h-4 w-4 text-white" />
+                </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">
-                    Email <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    type="email"
-                    placeholder="jan@example.com"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone">
-                    Telefon
-                  </Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handlePhoneInput}
-                    onBlur={(e) => {
-                      if (e.target.value && !validatePhone(e.target.value)) {
-                        e.target.setCustomValidity('Wprowadź poprawny numer telefonu (format: +48 XXX XXX XXX)');
-                      } else {
-                        e.target.setCustomValidity('');
-                      }
-                    }}
-                    type="tel"
-                    placeholder="+48 123 456 789"
-                    pattern="^\+?48?\d{9}$"
-                    title="Wprowadź poprawny numer telefonu (format: +48 XXX XXX XXX)"
-                    maxLength={13}
-                  />
-                </div>
+              <p className="mt-8 text-3xl font-medium tracking-tight sm:text-4xl">
+                {company.phone}
+              </p>
+              <p className="mt-4 text-sm text-neutral-400">{company.hours}</p>
+              <p className="mt-6 max-w-md text-sm leading-6 text-neutral-300">
+                Najszybciej ustalimy kierunek po kilku minutach rozmowy. Powiedz, czy chodzi o stronę,
+                branding, aplikację, automatyzację albo proces, który chcesz uprościć.
+              </p>
+
+              <div className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-white">
+                Zadzwoń teraz
+                <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </div>
+            </div>
+          </a>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="website">
-                    Firma/Strona WWW
-                  </Label>
-                  <Input
-                    id="website"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleWebsiteInput}
-                    onBlur={(e) => {
-                      if (e.target.value && !validateUrl(e.target.value)) {
-                        e.target.setCustomValidity('Wprowadź poprawny adres strony internetowej');
-                      } else {
-                        e.target.setCustomValidity('');
-                      }
-                    }}
-                    type="url"
-                    placeholder="https://www.twojafirma.pl"
-                    pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
-                    title="Wprowadź poprawny adres URL (np. https://www.twojafirma.pl)"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="service">
-                    Interesująca usługa
-                  </Label>
-                  <select
-                    id="service"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">Wybierz usługę</option>
-                    <option value="web-design">Projektowanie stron WWW</option>
-                    <option value="buissnes-card">Wizytówka Google</option>
-                    <option value="seo">SEO</option>
-                    <option value="digital-marketing">Marketing cyfrowy</option>   
-                    <option value="other">Inne</option>
-                  </select>
-                </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <a
+              href={company.emailHref}
+              className="group rounded-3xl border border-neutral-200/80 bg-white p-6 transition hover:border-neutral-300"
+            >
+              <div className="flex items-center justify-between">
+                <span className="rounded-full border border-neutral-200 p-2.5 text-neutral-700">
+                  <Mail className="h-4 w-4" />
+                </span>
+                <ArrowUpRight className="h-4 w-4 text-neutral-400 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-neutral-950" />
               </div>
+              <p className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-neutral-400">
+                Email
+              </p>
+              <p className="mt-2 break-all text-base font-medium text-neutral-950">
+                {company.email}
+              </p>
+              <p className="mt-3 text-xs leading-5 text-neutral-500">
+                Dla osób, które wolą spokojnie opisać kontekst.
+              </p>
+            </a>
 
-              <div className="space-y-2">
-                <Label htmlFor="message">
-                  Wiadomość <span className="text-destructive">*</span>
-                </Label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={5}
-                  placeholder="Twoja wiadomość..."
-                />
+            <div className="rounded-3xl border border-neutral-200/80 bg-white p-6">
+              <div className="flex items-center justify-between">
+                <span className="rounded-full border border-neutral-200 p-2.5 text-neutral-700">
+                  <MapPin className="h-4 w-4" />
+                </span>
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="files">
-                  Załączniki
-                </Label>
-                <input
-                  id="files"
-                  name="files"
-                  type="file"
-                  onChange={handleFileChange}
-                  multiple
-                  className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <p className="text-sm text-muted-foreground mt-1">
-                  Maksymalny rozmiar pliku: 10MB
-                </p>
-              </div>
-
-              <div className="flex items-start space-x-2">
-                <input
-                  id="gdpr"
-                  name="gdpr"
-                  type="checkbox"
-                  checked={formData.gdpr}
-                  onChange={handleInputChange}
-                  required
-                  className="mt-1"
-                />
-                <label htmlFor="gdpr" className="text-sm text-muted-foreground">
-                  Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z polityką RODO. <span className="text-destructive">*</span>
-                </label>
-              </div>
-
-              <div className="text-sm text-muted-foreground">
-                <span className="text-destructive">*</span> Pola wymagane
-              </div>
-
-              <ShimmerButton 
-                className="w-full" 
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Wysyłanie..." : "Wyślij wiadomość"}
-              </ShimmerButton>
-
-              <AnimatePresence>
-                {submitStatus !== 'idle' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className={cn(
-                      "p-4 rounded-lg text-center",
-                      submitStatus === 'success' ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
-                    )}
-                  >
-                    {submitStatus === 'success' 
-                      ? "Wiadomość została wysłana! Skontaktujemy się wkrótce."
-                      : "Wystąpił błąd. Spróbuj ponownie później."}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </form>
-          </motion.div>
-
-          {/* Contact Information */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-8"
-          >
-            <div>
-              <h2 className="text-2xl font-bold mb-6">Informacje kontaktowe</h2>
-              <p className="text-muted-foreground mb-8">
-                Wybierz najwygodniejszą dla siebie formę kontaktu. Jesteśmy dostępni w dni robocze w godzinach 9:00-17:00.
+              <p className="mt-6 text-xs font-medium uppercase tracking-[0.18em] text-neutral-400">
+                Lokalizacja
+              </p>
+              <p className="mt-2 text-base font-medium text-neutral-950">{company.location}</p>
+              <p className="mt-3 text-xs leading-5 text-neutral-500">
+                Pracujemy zdalnie i projektowo.
               </p>
             </div>
+          </div>
+        </motion.div>
 
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-blue-100 rounded-lg">
-                  <PhoneIcon className="h-6 w-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="font-medium">Telefon</h3>
-                  <a href="tel:+48669281812"><p className="text-muted-foreground">+48 669 281 812</p></a>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Pon-Pt: 8:00 - 17:00
-                  </p>
-                </div>
-              </div>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          id="contact-form"
+          className="rounded-3xl border border-neutral-200/80 bg-white p-8 sm:p-10"
+        >
+          <Eyebrow>Formularz</Eyebrow>
+          <h2 className="mt-5 text-balance text-2xl font-medium leading-tight text-neutral-950 sm:text-3xl">
+            Przygotuj wiadomość w 30 sekund.
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-neutral-600">
+            Po kliknięciu formularz wyśle wiadomość bezpośrednio przez Resend API.
+          </p>
 
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-blue-100 rounded-lg">
-                  <MailIcon className="h-6 w-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="font-medium">Email</h3>
-                  <a href="mailto:vinseq7@gmail.com"><p className="text-muted-foreground">vinseq7@gmail.com</p></a>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Odpowiadamy w ciągu 24 godzin
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="p-3 bg-blue-100 rounded-lg">
-                  <MapPinIcon className="h-6 w-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="font-medium">Adres</h3>
-                  <p className="text-muted-foreground">Głogów, Polska</p>
-                 
-                </div>
-              </div>
-            </div>
-
-            {/* Map */}
-            <div className="mt-8 h-[300px] rounded-lg overflow-hidden">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=G%C5%82og%C3%B3w,%20Polska+(Vinseq%20Studio)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field
+                id="name"
+                label="Imię i nazwisko"
+                value={formData.name}
+                onChange={(value) => setFormData((current) => ({ ...current, name: value }))}
+                placeholder="Jan Kowalski"
+                required
+              />
+              <Field
+                id="companyName"
+                label="Firma"
+                value={formData.companyName}
+                onChange={(value) => setFormData((current) => ({ ...current, companyName: value }))}
+                placeholder="Nazwa firmy"
               />
             </div>
-          </motion.div>
-        </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field
+                id="email"
+                label="Email kontaktowy"
+                type="email"
+                value={formData.email}
+                onChange={(value) => setFormData((current) => ({ ...current, email: value }))}
+                placeholder="jan@firma.pl"
+              />
+              <div>
+                <label
+                  htmlFor="service"
+                  className="block text-xs font-medium uppercase tracking-[0.18em] text-neutral-500"
+                >
+                  Obszar
+                </label>
+                <select
+                  id="service"
+                  value={formData.service}
+                  onChange={(event) =>
+                    setFormData((current) => ({ ...current, service: event.target.value }))
+                  }
+                  className="mt-2 h-12 w-full rounded-2xl border border-neutral-200 bg-white px-4 text-sm text-neutral-900 transition focus:border-neutral-950 focus:outline-none focus:ring-1 focus:ring-neutral-950"
+                >
+                  {serviceCards.map((service) => (
+                    <option key={service.id} value={service.title}>
+                      {service.title}
+                    </option>
+                  ))}
+                  <option value="Inny temat">Inny temat</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="message"
+                className="block text-xs font-medium uppercase tracking-[0.18em] text-neutral-500"
+              >
+                Opis potrzeby
+              </label>
+              <textarea
+                id="message"
+                value={formData.message}
+                onChange={(event) =>
+                  setFormData((current) => ({ ...current, message: event.target.value }))
+                }
+                rows={6}
+                placeholder="Np. potrzebujemy nowej strony, pełnego brandingu, panelu klienta, automatyzacji leadów albo narzędzia AI..."
+                required
+                className="mt-2 block w-full resize-none rounded-2xl border border-neutral-200 bg-white p-4 text-sm leading-6 text-neutral-900 transition focus:border-neutral-950 focus:outline-none focus:ring-1 focus:ring-neutral-950"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-neutral-950 px-6 py-4 text-sm font-medium text-white transition hover:bg-neutral-800"
+            >
+              {isSubmitting
+                ? "Wysyłanie..."
+                : submitState === "success"
+                  ? "Wiadomość wysłana"
+                  : "Wyślij wiadomość"}
+              <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </button>
+
+            {submitState === "success" && (
+              <p className="text-xs leading-5 text-emerald-700">
+                Dziękujemy! Wiadomość została wysłana. Odezwiemy się najszybciej, jak to możliwe.
+              </p>
+            )}
+
+            {submitState === "error" && (
+              <p className="text-xs leading-5 text-red-600">
+                Nie udało się wysłać wiadomości. Spróbuj ponownie lub skontaktuj się telefonicznie.
+              </p>
+            )}
+          </form>
+        </motion.div>
       </div>
     </section>
   );
 };
+
+const Field = ({
+  id,
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  required = false,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  type?: string;
+  required?: boolean;
+}) => (
+  <div>
+    <label
+      htmlFor={id}
+      className="block text-xs font-medium uppercase tracking-[0.18em] text-neutral-500"
+    >
+      {label}
+    </label>
+    <input
+      id={id}
+      type={type}
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+      placeholder={placeholder}
+      required={required}
+      className="mt-2 h-12 w-full rounded-2xl border border-neutral-200 bg-white px-4 text-sm text-neutral-900 transition placeholder:text-neutral-400 focus:border-neutral-950 focus:outline-none focus:ring-1 focus:ring-neutral-950"
+    />
+  </div>
+);
 
 const Contact = () => {
   return (
@@ -416,6 +341,6 @@ const Contact = () => {
       <FAQSection />
     </main>
   );
-}
+};
 
 export default Contact;

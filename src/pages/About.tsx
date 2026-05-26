@@ -1,329 +1,219 @@
-import { motion } from "framer-motion";
-import { GridPattern } from "@/components/ui/grid-pattern";
-import { DotPattern } from "@/components/ui/dot-pattern";
-import { MagicCard } from "@/components/ui/magic-card";
-import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
-import { ShimmerButton } from "@/components/ui/shimmer-button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { aboutHighlights, company, processSteps, valuePoints } from "@/content/site";
+import { motion } from "motion/react";
+import { ArrowUpRight, Mail, Phone } from "lucide-react";
 
-const ABOUT_CONTENT = {
-    hero: {
-        title: "Poznaj naszą historię",
-        subtitle: "Tworzymy strategie, które działają. Dołącz do grona zadowolonych klientów i zobacz, jak możemy pomóc Twojej firmie rosnąć w internecie.",
-        description: "Pomagamy firmom zwiększyć widoczność w sieci i budować konwertujące strony internetowe. Działamy z pasją, wykorzystując nowoczesne technologie i najlepsze praktyki marketingu cyfrowego.",
-        cta: [
-            { text: "Zobacz, jak możemy pomóc", href: "/services" },
-            { text: "Umów darmową konsultację", href: "/contact" }
-        ]
-    },
-    mission: {
-        title: "Nasza misja: Twoja przewaga w internecie",
-        content: "Naszą misją jest dostarczanie rozwiązań, które pomagają firmom rosnąć w internecie. Łączymy strategię SEO, optymalizację UX i nowoczesne technologie, aby zwiększać Twoją widoczność i konwersje."
-    },
-    process: {
-        title: "Jasny proces, konkretne efekty",
-        subtitle: "Współpraca z nami jest przejrzysta i efektywna. Skupiamy się na wynikach, a nie pustych obietnicach.",
-        steps: [
-            {
-                title: "Analiza i strategia",
-                description: "Badamy Twoją branżę i konkurencję",
-                icon: "🔍"
-            },
-            {
-                title: "Projekt i optymalizacja",
-                description: "Tworzymy nowoczesne strony, które angażują użytkowników",
-                icon: "💻"
-            },
-            {
-                title: "SEO i widoczność",
-                description: "Optymalizujemy treści, by zwiększyć ruch organiczny",
-                icon: "📈"
-            },
-            {
-                title: "Mierzenie wyników",
-                description: "Analizujemy efektywność i stale ulepszamy strategię",
-                icon: "📊"
-            }
-        ]
-    },
-    values: {
-        title: "Wartości, które kierują naszą pracą",
-        items: [
-            {
-                title: "Innowacja",
-                description: "Stale śledzimy trendy i wdrażamy nowe technologie",
-                icon: "🚀"
-            },
-            {
-                title: "Skuteczność",
-                description: "Skupiamy się na wynikach, które realnie wpływają na Twój biznes",
-                icon: "🎯"
-            },
-            {
-                title: "Transparentność",
-                description: "Jesteśmy otwarci i komunikujemy się jasno na każdym etapie współpracy",
-                icon: "🤝"
-            }
-        ]
-    },
-    standards: {
-        title: "Nasze standardy",
-        items: [
-            { number: "100%", label: "zaangażowania w każdy projekt" },
-            { number: "2x", label: "lepsza widoczność w Google" },
-            { number: "100%", label: "responsywnych stron" },
-            { number: "A+", label: "Core Web Vitals" }
-        ]
-    },
-    technologies: {
-        title: "Technologie, z którymi pracujemy",
-        items: [
-            { name: "Next.js", icon: "⚡" },
-            { name: "React", icon: "⚛️" },
-            { name: "Tailwind CSS", icon: "🎨" },
-            { name: "Framer Motion", icon: "✨" }
-        ]
-    },
-    cta: {
-        title: "Chcesz zwiększyć swoją widoczność online?",
-        subtitle: "Skorzystaj z darmowej konsultacji i dowiedz się, jak możemy pomóc Twojej firmie",
-        buttons: [
-            { text: "Umów darmową konsultację", href: "/contact", primary: true },
-            { text: "Zobacz nasze usługi", href: "/services", primary: false }
-        ]
-    }
-};
+const Eyebrow = ({ children }: { children: React.ReactNode }) => (
+  <span className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+    <span className="h-px w-6 bg-neutral-300" />
+    {children}
+  </span>
+);
 
 const AboutHero = () => (
-    <section className="relative bg-slate-100 flex flex-col justify-center items-center h-[40vh] pt-20 pb-10 overflow-hidden">
-        <GridPattern
-            width={40}
-            height={40}
-            className="absolute inset-0 opacity-50 [mask-image:linear-gradient(180deg,white_0%,white_10%,transparent_100%)]"
-        />
+  <section className="relative isolate overflow-hidden bg-neutral-950 px-6 pb-24 pt-32 text-white sm:pb-28 lg:px-8 lg:pt-40">
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 -z-10"
+    >
+      <div className="absolute -top-32 left-1/2 h-[420px] w-[760px] -translate-x-1/2 rounded-full bg-violet-500/20 blur-[140px]" />
+    </div>
+
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="mx-auto max-w-4xl text-center"
+    >
+      <Eyebrow>
+        <span className="text-neutral-400">Studio</span>
+      </Eyebrow>
+      <h1 className="mt-7 text-balance text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+        Łączymy{" "}
+        <span className="font-serif italic font-normal text-neutral-300">estetykę</span>,
+        logikę produktu i konkretne cele biznesowe.
+      </h1>
+      <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-neutral-400 sm:text-lg sm:leading-8">
+        Vinseq Studio rozwija nowoczesne produkty cyfrowe dla firm, które chcą uporządkować procesy,
+        przyspieszyć obsługę i zbudować przewagę przez strony, branding i dobrze zaprojektowany software.
+      </p>
+    </motion.div>
+  </section>
+);
+
+const MissionSection = () => (
+  <section className="bg-white py-24 sm:py-32">
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="z-10 text-center"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
         >
-            <h1 className="text-5xl font-bold mb-4">{ABOUT_CONTENT.hero.title}</h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                {ABOUT_CONTENT.hero.subtitle}
-            </p>
+          <Eyebrow>Misja</Eyebrow>
+          <h2 className="mt-5 text-balance text-3xl font-medium leading-[1.1] text-neutral-950 sm:text-4xl lg:text-[2.5rem]">
+            Tworzymy{" "}
+            <span className="font-serif italic font-normal text-neutral-700">rozwiązania</span>,
+            nie tylko ekrany.
+          </h2>
+          <p className="mt-6 max-w-lg text-base leading-7 text-neutral-600">
+            Dla nas dobry projekt to taki, który wygląda nowocześnie, wzmacnia odbiór marki
+            i przede wszystkim upraszcza pracę, poprawia przepływ informacji i wspiera realne
+            decyzje w firmie.
+          </p>
         </motion.div>
-    </section>
-);
 
-const Stats = () => (
-    <section className="py-20 bg-blue-600">
-        <div className="max-w-7xl mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {ABOUT_CONTENT.standards.items.map((stat, index) => (
-                    <motion.div
-                        key={stat.label}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="text-center"
-                    >
-                        <h3 className="text-4xl font-bold text-white mb-2">{stat.number}</h3>
-                        <p className="text-white">{stat.label}</p>
-                    </motion.div>
-                ))}
-            </div>
-        </div>
-    </section>
-);
-
-const Mission = () => (
-    <section className="py-20 bg-slate-100 relative overflow-hidden">
-        <DotPattern
-            width={20}
-            height={20}
-            cx={1}
-            cy={1}
-            cr={1}
-            className={cn(
-                "absolute inset-0",
-                "[mask-image:linear-gradient(to_bottom_right,white,transparent_80%)]"
-            )}
-        />
-        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <div className="space-y-3">
+          {aboutHighlights.map((item, index) => (
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+              key={item}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              className="group flex items-start gap-5 rounded-2xl border border-neutral-200/80 bg-white p-5 transition hover:border-neutral-300"
             >
-                <h2 className="text-3xl font-bold mb-6">{ABOUT_CONTENT.mission.title}</h2>
-                <p className="text-xl text-muted-foreground leading-relaxed">
-                    {ABOUT_CONTENT.mission.content}
-                </p>
+              <span className="font-serif text-2xl italic leading-none text-neutral-400">
+                0{index + 1}
+              </span>
+              <p className="text-base leading-7 text-neutral-800">{item}</p>
             </motion.div>
+          ))}
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 );
 
-const Values = () => (
-    <section className="py-20 bg-slate-100">
-        <div className="max-w-7xl mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">{ABOUT_CONTENT.values.title}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {ABOUT_CONTENT.values.items.map((value, index) => (
-                    <motion.div
-                        key={value.title}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                    >
-                        <MagicCard className="h-full p-8">
-                            <div className="text-4xl mb-4">{value.icon}</div>
-                            <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                            <p className="text-muted-foreground">{value.description}</p>
-                        </MagicCard>
-                    </motion.div>
-                ))}
-            </div>
-        </div>
-    </section>
+const PrinciplesSection = () => (
+  <section className="bg-neutral-50/60 py-24 sm:py-32">
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto mb-14 max-w-3xl text-center">
+        <Eyebrow>Proces</Eyebrow>
+        <h2 className="mt-5 text-balance text-3xl font-medium leading-[1.1] text-neutral-950 sm:text-4xl lg:text-[2.75rem]">
+          Prosty proces i czytelna{" "}
+          <span className="font-serif italic font-normal text-neutral-700">współpraca</span>.
+        </h2>
+      </div>
+
+      <div className="mx-auto grid max-w-6xl gap-px overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-200/80 sm:grid-cols-2 lg:grid-cols-4">
+        {processSteps.map((step, index) => (
+          <motion.div
+            key={step.title}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.4, delay: index * 0.06 }}
+            className="flex flex-col bg-white p-8"
+          >
+            <span className="font-serif text-3xl italic text-neutral-400">
+              0{index + 1}
+            </span>
+            <h3 className="mt-5 text-lg font-medium leading-snug text-neutral-950">
+              {step.title.replace(/^\d+\.\s*/, "")}
+            </h3>
+            <p className="mt-3 text-sm leading-6 text-neutral-600">{step.description}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
 );
 
+const ValuesSection = () => (
+  <section className="bg-white py-24 sm:py-32">
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto mb-14 max-w-3xl text-center">
+        <Eyebrow>Standard</Eyebrow>
+        <h2 className="mt-5 text-balance text-3xl font-medium leading-[1.1] text-neutral-950 sm:text-4xl lg:text-[2.75rem]">
+          Co ma znaczenie w{" "}
+          <span className="font-serif italic font-normal text-neutral-700">każdym</span>{" "}
+          projekcie.
+        </h2>
+      </div>
 
-const Process = () => {
-    const [activeTab, setActiveTab] = useState("step-1");
-    const [isHovered, setIsHovered] = useState(false);
-
-    useEffect(() => {
-        if (isHovered) return;
-
-        const interval = setInterval(() => {
-            setActiveTab(current => {
-                const currentStep = parseInt(current.split('-')[1]);
-                return currentStep >= ABOUT_CONTENT.process.steps.length
-                    ? "step-1"
-                    : `step-${currentStep + 1}`;
-            });
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [isHovered]);
-
-    return (
-        <section className="pb-20 pt-10 bg-slate-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Title & Subtitle */}
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl sm:text-4xl font-bold mb-4">{ABOUT_CONTENT.process.title}</h2>
-                    <p className="text-lg sm:text-xl text-muted-foreground">{ABOUT_CONTENT.process.subtitle}</p>
-                </div>
-
-                {/* Responsive Tabs */}
-                <Tabs
-                    value={activeTab}
-                    onValueChange={setActiveTab}
-                    className="flex flex-col md:flex-row w-full gap-4"
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                >
-                    {/* Tab List - Horizontal on small screens, Vertical on medium+ screens */}
-                    <TabsList className="flex flex-row md:flex-col overflow-x-auto md:overflow-visible whitespace-nowrap md:whitespace-normal border-l border-border bg-transparent p-0">
-                        {ABOUT_CONTENT.process.steps.map((step, index) => (
-                            <TabsTrigger
-                                key={step.title}
-                                value={`step-${index + 1}`}
-                                className="relative flex-shrink-0 px-3 py-2 text-lg md:text-xl text-muted-foreground hover:text-blue-600 transition-all md:w-full border-b md:border-l-0 md:border-b-0 md:border-border last:border-b-0 md:last:border-l-0 data-[state=active]:text-blue-600"
-                            >
-                                {step.title}
-                            </TabsTrigger>
-                        ))}
-                    </TabsList>
-
-                    {/* Tab Content */}
-                    <div className="grow rounded-lg border border-border text-start p-4 sm:p-6">
-                        {ABOUT_CONTENT.process.steps.map((step, index) => (
-                            <TabsContent key={step.title} value={`step-${index + 1}`}>
-                                <motion.div
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-8">
-                                        <div className="text-4xl">{step.icon}</div>
-                                        <div className="text-center sm:text-left">
-                                            <h3 className="text-xl font-bold">{step.title}</h3>
-                                            <p className="text-muted-foreground">{step.description}</p>
-                                        </div>
-                                    </div>
-
-                                    {/* Step Content (Grid on Larger Screens) */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.2, duration: 0.3 }}
-                                        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-                                    >
-                                        {ABOUT_CONTENT.process.steps.map((item, i) => (
-                                            <MagicCard key={i} className="p-4">
-                                                <div className="flex items-start gap-3">
-                                                    <div className="text-2xl">{item.icon}</div>
-                                                    <div>
-                                                        <h4 className="font-medium mb-1">{item.title}</h4>
-                                                        <p className="text-sm text-muted-foreground">{item.description}</p>
-                                                    </div>
-                                                </div>
-                                            </MagicCard>
-                                        ))}
-                                    </motion.div>
-                                </motion.div>
-                            </TabsContent>
-                        ))}
-                    </div>
-                </Tabs>
-            </div>
-        </section>
-    );
-};
-
-
-
+      <div className="mx-auto grid max-w-6xl gap-px overflow-hidden rounded-3xl border border-neutral-200/80 bg-neutral-200/80 sm:grid-cols-2 lg:grid-cols-4">
+        {valuePoints.map((item, index) => (
+          <motion.div
+            key={item.title}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.4, delay: index * 0.06 }}
+            className="flex flex-col bg-white p-8"
+          >
+            <span className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-400">
+              0{index + 1}
+            </span>
+            <h3 className="mt-5 text-lg font-medium leading-snug text-neutral-950">
+              {item.title}
+            </h3>
+            <p className="mt-3 text-sm leading-6 text-neutral-600">{item.description}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 const FinalCTA = () => (
-    <section className="py-20 bg-slate-100">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+  <section className="bg-neutral-50/60 py-24 sm:py-32">
+    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="relative overflow-hidden rounded-[2rem] bg-neutral-950 p-10 text-white sm:p-16 lg:p-20">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-32 top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-violet-500/25 blur-[140px]"
+        />
+
+        <div className="relative mx-auto max-w-3xl text-center">
+          <Eyebrow>
+            <span className="text-neutral-400">Następny krok</span>
+          </Eyebrow>
+          <h2 className="mt-5 text-balance text-3xl font-medium leading-[1.1] sm:text-4xl lg:text-[2.75rem]">
+            Masz temat do zbudowania albo{" "}
+            <span className="font-serif italic font-normal text-neutral-400">usprawnienia</span>?
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-neutral-400">
+            Najszybciej przejdziemy dalej po telefonie. Mail zostawiamy jako wygodny fallback,
+            kiedy chcesz spokojnie opisać kontekst.
+          </p>
+
+          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+            <a
+              href={company.phoneHref}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-4 text-sm font-medium text-neutral-950 transition hover:bg-neutral-200"
             >
-                <h2 className="text-3xl font-bold mb-4">{ABOUT_CONTENT.cta.title}</h2>
-                <p className="text-xl text-muted-foreground mb-8">{ABOUT_CONTENT.cta.subtitle}</p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Phone className="h-4 w-4" />
+              {company.phone}
+            </a>
+            <a
+              href={company.emailHref}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 py-4 text-sm font-medium text-white transition hover:border-white/30 hover:bg-white/[0.08]"
+            >
+              <Mail className="h-4 w-4" />
+              {company.email}
+            </a>
+          </div>
 
-                    <a href="https://cal.com/konrad-kazimierowicz-xdabk3/15min" target="_blank" rel="noopener noreferrer">
-                        <InteractiveHoverButton className="min-w-[200px] h-12 rounded-full bg-blue-600 text-white text-base">
-                            Umów konsultację
-                        </InteractiveHoverButton>
-                    </a>
-
-                </div>
-            </motion.div>
+          <p className="mt-6 inline-flex items-center gap-2 text-sm text-neutral-500">
+            <ArrowUpRight className="h-3.5 w-3.5" />
+            Krótka rozmowa wystarczy, żeby ustalić sensowny pierwszy krok.
+          </p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 );
 
 const About = () => {
-    return (
-        <main>
-            <AboutHero />
-            <Process />
-            <Stats />
-            <Mission />
-            <Values />
-            <FinalCTA />
-        </main>
-    );
+  return (
+    <main>
+      <AboutHero />
+      <MissionSection />
+      <PrinciplesSection />
+      <ValuesSection />
+      <FinalCTA />
+    </main>
+  );
 };
 
 export default About;
