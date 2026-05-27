@@ -1,22 +1,14 @@
 import path from "path";
 import { IncomingMessage, ServerResponse } from "node:http";
 import react from "@vitejs/plugin-react";
-import { Resend } from "resend";
 import { Plugin, defineConfig, loadEnv } from "vite";
+import { normalizeContactPayload, sendContactEmail } from "./server/resendContact.js";
 
 const sendJson = (res: ServerResponse, statusCode: number, payload: Record<string, unknown>) => {
   res.statusCode = statusCode;
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(payload));
 };
-
-const escapeHtml = (value: string) =>
-  value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 
 const readBody = async (req: IncomingMessage) =>
   new Promise<string>((resolve, reject) => {
@@ -28,31 +20,6 @@ const readBody = async (req: IncomingMessage) =>
     req.on("error", reject);
   });
 
-const parseContactPayload = async (req: IncomingMessage) => {
-  const raw = await readBody(req);
-  const parsed = JSON.parse(raw || "{}") as {
-    name?: string;
-    companyName?: string;
-    email?: string;
-    service?: string;
-    message?: string;
-  };
-
-  const payload = {
-    name: parsed.name?.trim() ?? "",
-    companyName: parsed.companyName?.trim() ?? "",
-    email: parsed.email?.trim() ?? "",
-    service: parsed.service?.trim() ?? "",
-    message: parsed.message?.trim() ?? "",
-  };
-
-  if (!payload.name || !payload.message) {
-    throw new Error("MISSING_REQUIRED_FIELDS");
-  }
-
-  return payload;
-};
-
 const contactHandler = async (
   req: IncomingMessage,
   res: ServerResponse,
@@ -63,46 +30,36 @@ const contactHandler = async (
     return;
   }
 
-  const resendApiKey = env.RESEND_API_KEY;
-  const resendToEmail = env.RESEND_TO_EMAIL || "vinseq7@gmail.com";
-  const resendFromEmail = env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-
-  if (!resendApiKey) {
-    sendJson(res, 500, {
-      error:
-        "Missing RESEND_API_KEY environment variable. Replace re_xxxxxxxxx with your real API key.",
-    });
-    return;
-  }
-
   try {
-    const payload = await parseContactPayload(req);
-    const resend = new Resend(resendApiKey);
+    const raw = await readBody(req);
+    const body = JSON.parse(raw || "{}");
+    const payload = normalizeContactPayload(body);
+    const result = await sendContactEmail(payload, env);
 
-    const html = `
-      <h2>Nowe zapytanie kontaktowe</h2>
-      <p><strong>Imię i nazwisko:</strong> ${escapeHtml(payload.name)}</p>
-      <p><strong>Firma:</strong> ${escapeHtml(payload.companyName || "-")}</p>
-      <p><strong>Email:</strong> ${escapeHtml(payload.email || "-")}</p>
-      <p><strong>Obszar:</strong> ${escapeHtml(payload.service || "-")}</p>
-      <hr />
-      <p><strong>Opis potrzeby:</strong></p>
-      <p>${escapeHtml(payload.message).replaceAll("\n", "<br />")}</p>
-    `;
+    if (!result.ok) {
+      const statusByCode: Record<string, number> = {
+        MISSING_RESEND_API_KEY: 500,
+        MISSING_RESEND_FROM_EMAIL: 500,
+        MISSING_RESEND_TO_EMAIL: 500,
+        INVALID_RESEND_FROM_EMAIL: 500,
+        RESEND_SEND_FAILED: 502,
+      };
 
-    await resend.emails.send({
-      from: resendFromEmail,
-      to: resendToEmail,
-      subject: `Nowe zapytanie: ${payload.service || "Kontakt"}`,
-      html,
-    });
+      sendJson(res, statusByCode[result.code] ?? 500, { error: result.message });
+      return;
+    }
 
-    sendJson(res, 200, { ok: true });
+    sendJson(res, 200, { ok: true, id: result.data?.id });
   } catch (error) {
-    const isBadPayload = error instanceof Error && error.message === "MISSING_REQUIRED_FIELDS";
-    sendJson(res, isBadPayload ? 400 : 500, {
-      error: isBadPayload ? "Missing required fields" : "Failed to send email",
-    });
+    const code = (error as Error & { code?: string }).code;
+
+    if (code === "MISSING_REQUIRED_FIELDS") {
+      sendJson(res, 400, { error: "Missing required fields" });
+      return;
+    }
+
+    console.error("Dev contact form error:", error);
+    sendJson(res, 500, { error: "Failed to send email" });
   }
 };
 
