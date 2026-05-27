@@ -95,8 +95,40 @@ function formatFromAddress(string $fromEmail, string $displayName = ''): ?string
     return $email;
 }
 
-// .env obok index.html (po build: dist/.env) — nie commituj tego pliku na GitHub
+function loadResendConfig(): void
+{
+    $configFile = dirname(__DIR__) . '/resend-config.php';
+
+    if (!is_readable($configFile)) {
+        return;
+    }
+
+    $config = require $configFile;
+
+    if (!is_array($config)) {
+        return;
+    }
+
+    foreach ($config as $key => $value) {
+        if (!is_string($key) || !is_scalar($value)) {
+            continue;
+        }
+
+        $stringValue = trim((string) $value);
+
+        if ($stringValue === '') {
+            continue;
+        }
+
+        putenv($key . '=' . $stringValue);
+        $_ENV[$key] = $stringValue;
+        $_SERVER[$key] = $stringValue;
+    }
+}
+
+// Kolejność: .env (opcjonalnie), potem resend-config.php (zalecane na Hostingerze)
 loadEnvFile(dirname(__DIR__) . '/.env');
+loadResendConfig();
 
 if (isset($_GET['health'])) {
     respond(200, [
@@ -134,7 +166,7 @@ $toEmail = env('RESEND_TO_EMAIL');
 
 if ($apiKey === '' || $apiKey === 're_xxxxxxxxx') {
     respond(500, [
-        'error' => 'Brak RESEND_API_KEY na serwerze. Dodaj .env w katalogu strony lub zmienne w panelu Hostinger.',
+        'error' => 'Brak RESEND_API_KEY. Na Hostingerze: skopiuj resend-config.example.php jako resend-config.php obok index.html i wklej klucz API.',
         'code' => 'MISSING_RESEND_API_KEY',
     ]);
 }
