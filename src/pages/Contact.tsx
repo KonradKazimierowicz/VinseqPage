@@ -68,14 +68,20 @@ const ContactInfo = () => {
     setIsSubmitting(true);
     setSubmitState("idle");
 
+    const apiUrl = `${import.meta.env.BASE_URL}api/contact`.replace(/\/{2,}/g, "/");
+
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
+
+      if (response.status === 404) {
+        throw new Error("API_NOT_FOUND");
+      }
 
       if (!response.ok) {
         throw new Error("SEND_FAILED");
