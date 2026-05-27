@@ -62,11 +62,13 @@ const ContactInfo = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState<"idle" | "success" | "error">("idle");
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
     setSubmitState("idle");
+    setSubmitError(null);
 
     const apiUrl = `${import.meta.env.BASE_URL}api/contact`.replace(/\/{2,}/g, "/");
 
@@ -79,12 +81,14 @@ const ContactInfo = () => {
         body: JSON.stringify(formData),
       });
 
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+
       if (response.status === 404) {
         throw new Error("API_NOT_FOUND");
       }
 
       if (!response.ok) {
-        throw new Error("SEND_FAILED");
+        throw new Error(data?.error || "SEND_FAILED");
       }
 
       setSubmitState("success");
@@ -95,8 +99,9 @@ const ContactInfo = () => {
         service: serviceCards[0].title,
         message: "",
       });
-    } catch {
+    } catch (error) {
       setSubmitState("error");
+      setSubmitError(error instanceof Error ? error.message : null);
     } finally {
       setIsSubmitting(false);
     }
@@ -293,7 +298,9 @@ const ContactInfo = () => {
 
             {submitState === "error" && (
               <p className="text-xs leading-5 text-red-600">
-                Nie udało się wysłać wiadomości. Spróbuj ponownie lub skontaktuj się telefonicznie.
+                {submitError && submitError !== "SEND_FAILED"
+                  ? submitError
+                  : "Nie udało się wysłać wiadomości. Spróbuj ponownie lub skontaktuj się telefonicznie."}
               </p>
             )}
           </form>
